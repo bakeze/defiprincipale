@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'GelicaExtraLight', 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Styles pour les curseurs */
+.range-slider {
+  /* Couleur de fond */
+  background-color: #e5e7eb; /* gris clair */
+}
+
+.range-slider::-webkit-slider-runnable-track {
+  height: 0.5rem;
+  background: linear-gradient(to right, #BB1850 var(--tw-range-fill, 0%), #e5e7eb var(--tw-range-fill, 0%));
+  border-radius: 0.25rem;
+}
+
+.range-slider::-moz-range-progress {
+  background-color: #BB1850;
+}
+
+.range-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1rem;
+  height: 1rem;
+  background-color: #BB1850; /* couleur du pouce */
+  border-radius: 50%;
+  cursor: pointer;
+  margin-top: -0.25rem;
+}
+
+.range-slider::-moz-range-thumb {
+  width: 1rem;
+  height: 1rem;
+  background-color:   #BB1850;
+  border-radius: 50%;
+  cursor: pointer;
+}
+/* 
+@font-face {
+  font-family: "GelicaExtraLight";
+  src: url('/public/font.woff2') format('woff2');
+} */
