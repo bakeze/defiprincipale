@@ -7,12 +7,14 @@ import {
   useLocation,
 } from "react-router-dom";
 import Accueil from "Accueil";
+import  Apprendre from "Apprendre";
+
 
 const App: React.FC = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Accueil />} />
+        <Route path="/" element={<Apprendre />} />
       </Routes>
     </Router>
   );
