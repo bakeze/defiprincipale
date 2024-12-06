@@ -1,41 +1,65 @@
-import React from 'react';
+import React, { useState } from 'react';
+import oceanBackground from '../src/asset/ocean.gif';
+import storyImage from '../src/asset/storytellinguser.png'; // Assure-toi d'ajouter une image ici
 
 const Accueil: React.FC = () => {
+  const [storyIndex, setStoryIndex] = useState(0);
+
+  const storyTexts = [
+    "Bonjour, Je m'appelle Marin.",
+    "L'océan, source de vie pour notre planète, joue un rôle essentiel dans l'équilibre écologique mondial. Il abrite une biodiversité incroyable et régule le climat en absorbant une grande partie du dioxyde de carbone.",
+    "Cependant, les océans subissent de nombreuses menaces causées par l'activité humaine. La pollution plastique, le réchauffement climatique, et la surpêche mettent en péril cet écosystème fragile.",
+    "Ces problématiques provoquent des déséquilibres, comme la destruction des récifs coralliens ou encore l'apparition de zones mortes, des endroits où aucune vie marine ne peut survivre.",
+    "Il est urgent d'agir pour protéger nos océans, car leur santé est intimement liée à celle de notre planète et de l'humanité.",
+  ];
+
+  const handleNextClick = () => {
+    if (storyIndex < storyTexts.length - 1) {
+      setStoryIndex(storyIndex + 1);
+    } else {
+      // Rediriger vers la page CorpHumain après la dernière partie de l'histoire
+      window.location.href = "/corpHumain";
+    }
+  };
+
   return (
-    <div className="min-h-screen flex flex-col">
-      {/* Header */}
-      <header className="relative bg-cover bg-center h-3/5" style={{ backgroundImage: 'url(https://source.unsplash.com/1600x900/?ocean,sea)' }}>
-        <div className="absolute inset-0 bg-black opacity-40"></div>
-        <div className="relative z-10 text-center text-white p-6">
-          <h1 className="text-5xl font-extrabold leading-tight mb-4 text-shadow-lg">Plongez dans l'aventure marine</h1>
-          <p className="text-xl md:text-2xl font-light mb-6">Vivez une expérience immersive entre l'humain et la mer.</p>
-          <button className="bg-blue-500 text-white py-2 px-6 rounded-full text-lg shadow-lg transition-transform transform hover:scale-105">
-            Explorer
-          </button>
-        </div>
+    <div
+      className="min-h-screen flex flex-col items-center justify-center p-6"
+      style={{
+        backgroundImage: `url(${oceanBackground})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    >
+      {/* Header Section */}
+      <header className="text-center mb-8 bg-black bg-opacity-50 p-4 rounded-md mt-8">
+        <h1 className="text-3xl font-bold text-white mb-4">Bienvenue dans notre expérience interactive</h1>
       </header>
 
-      {/* Section Nos Valeurs */}
-      <section className="bg-white py-12 px-6 text-center">
-        <h2 className="text-3xl font-semibold text-blue-600 mb-10">Nos Valeurs</h2>
-        <div className="flex flex-wrap justify-center gap-6">
-          <div className="bg-teal-100 p-8 rounded-xl shadow-lg w-full sm:w-1/2 md:w-1/3">
-            <h3 className="text-2xl font-semibold text-blue-600 mb-4">Respect de l'Océan</h3>
-            <p className="text-gray-700 text-lg">Nous valorisons la préservation des écosystèmes marins et la biodiversité.</p>
-          </div>
-          <div className="bg-teal-100 p-8 rounded-xl shadow-lg w-full sm:w-1/2 md:w-1/3">
-            <h3 className="text-2xl font-semibold text-blue-600 mb-4">Connexions Humaines</h3>
-            <p className="text-gray-700 text-lg">Créer des liens durables entre les hommes et leur environnement naturel.</p>
-          </div>
+      {/* Storytelling Section */}
+      <div className="flex flex-col items-center justify-center text-white text-lg bg-black bg-opacity-60 p-6 rounded-lg shadow-lg max-w-md mb-8">
+        <img
+          src={storyImage}
+          alt="Storytelling user"
+          className="w-48 h-48 mb-4 rounded-full shadow-md"
+        />
+        <div className="space-y-4">
+          <p className="text-center">{storyTexts[storyIndex]}</p>
+          <button
+            onClick={handleNextClick}
+            className="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-300 ease-in-out"
+          >
+            {storyIndex < storyTexts.length - 1 ? 'Suivant' : 'Continuer vers l\'expérience'}
+          </button>
         </div>
-      </section>
+      </div>
 
-      {/* Footer */}
-      <footer className="bg-blue-600 text-white py-4">
-        <p className="text-center text-sm">© 2024 - Projet Mer et Humain</p>
+      {/* Footer Section */}
+      <footer className="mt-12 text-center text-gray-200 text-sm bg-black bg-opacity-50 text-white p-2 rounded-md">
+        <p>Explorez le lien entre la nature et l'humain !</p>
       </footer>
     </div>
   );
-}
+};
 
 export default Accueil;

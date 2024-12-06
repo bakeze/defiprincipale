@@ -1,24 +1,19 @@
-import { useContext } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-  useLocation,
-} from "react-router-dom";
-import Accueil from "Accueil";
-import  Apprendre from "Apprendre";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import CorpHumain from './CorpHumain';
+import Apprendre from './Apprendre';
+import Accueil from 'Accueil';
 
-
-const App: React.FC = () => {
+function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Apprendre />} />
+        <Route path="/" element={<Accueil />} />
+        <Route path="/corphumain" element={<CorpHumain />} />
+        <Route path="/apprendre" element={<Apprendre />} />
       </Routes>
     </Router>
   );
 }
 
 export default App;
-

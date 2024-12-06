@@ -4,23 +4,33 @@ import artebloquer from '../src/asset/artebloquer.png';
 import barriere from '../src/asset/dam-water-barrier.gif';
 import peau from '../src/asset/peau.png'
 import simunitaire from '../src/asset/siimunitaire.png'
+import poumons from '../src/asset/poumons.png'
+import arteresaine from '../src/asset/arteresaine.png'
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const categories = [
-  { id: 1, name: 'Barrages dans les rivières' },
-  { id: 2, name: 'Surface de l\'océan' },
-  { id: 3, name: 'Récifs coralliens' },
+  { id: 1, name: 'circulation thermohaline' },
+  { id: 2, name: 'récifs coralliens' },
+  { id: 3, name: 'phytoplanctons' },
+  { id: 4, name: 'barrage' },
+  { id: 5, name: 'courant marin' },
 ];
 
 const cardsData = [
-  { id: 1, text: 'Artère bouchée', image: artebloquer, category: 'Barrages dans les rivières' },
-  { id: 2, text: 'Peau', image: peau, category: 'Surface de l\'océan' },
-  { id: 3, text: 'Système Immunitaire', image: simunitaire , category: 'Récifs coralliens' },
+  { id: 1, text: 'Circulation sanguine', image: artebloquer, category: 'circulation thermohaline' },
+  { id: 2, text: 'Peau', image: peau, category: 'récifs coralliens' },
+  { id: 3, text: 'Poumons', image: poumons , category: 'phytoplanctons' },
+  { id: 4, text: 'Artère bouchée', image: simunitaire , category: 'barrage' },
+  { id: 5, text: 'Artère saine', image: arteresaine , category: 'courant marin' },
+
 ];
 
 const explanations: Record<string, string> = {
-    'Surface de l\'océan': "L'océan est vital pour la planète. Il régule le climat, produit de l'oxygène et soutient une biodiversité incroyable. Il est également essentiel pour le transport maritime et la régulation des températures.",
-    'Barrages dans les rivières': "Les barrages peuvent réguler les rivières, mais ils peuvent aussi avoir des effets négatifs sur l'écosystème. Ils sont utilisés pour produire de l'énergie hydroélectrique, fournir de l'eau potable, mais peuvent aussi perturber les écosystèmes aquatiques.",
-    'Récifs coralliens': "Les récifs coralliens sont des écosystèmes marins uniques qui abritent une grande variété de vie marine. Ils sont menacés par le réchauffement climatique, la pollution et la surpêche, ce qui met en danger les espèces qui en dépendent.",
+    'phytoplanctons': "Les poumons permettent la respiration humaine en absorbant l’oxygène et en rejetant le dioxyde de carbone, tout comme les phytoplanctons produisent la majeure partie de l’oxygène sur Terre grâce à la photosynthèse.",
+    'circulation thermohaline': " La circulation sanguine transporte l'oxygène et les nutriments à travers le corps humain, tout comme la circulation thermohaline redistribue la chaleur et les nutriments à travers les océans, jouant un rôle clé dans la régulation du climat terrestre.",
+    'Récifs coralliens': "La peau protège le corps des agressions extérieures et régule certains processus, tout comme les récifs coralliens forment une barrière naturelle qui protège les côtes et héberge une grande diversité de vie marine.",
+    'barrage': "La peau protège le corps des agressions extérieures et régule certains processus, tout comme les récifs coralliens forment une barrière naturelle qui protège les côtes et héberge une grande diversité de vie marine.",
+    'courant marin': "Une artère saine permet un flux sanguin continu et régulier, tout comme un courant marin sain assure une circulation fluide de l’eau, essentielle à la vie marine et à l'équilibre des écosystèmes océaniques.",
 };
 
 const Apprendre: React.FC = () => {
@@ -31,21 +41,30 @@ const Apprendre: React.FC = () => {
   const [popupType, setPopupType] = useState<'correct' | 'incorrect'>('correct');
   const [explanation, setExplanation] = useState('');
 
-  const handleDrop = (cardId: number, targetCategory: string) => {
-    const card = cards.find((c) => c.id === cardId);
-    if (card && card.category === targetCategory) {
-      setCards((prevCards) => prevCards.filter((c) => c.id !== cardId));
-      setScore((prevScore) => prevScore + 1);
-      setMessage('Bonne réponse !');
-      setPopupType('correct');
-      setExplanation(explanations[targetCategory]); // Affichage de l'explication
-    } else {
-      setMessage('Mauvaise réponse, essayez encore.');
-      setPopupType('incorrect');
-      setExplanation('Il semble que vous ayez fait une erreur. Réessayez pour mieux comprendre !');
-    }
+  const navigate = useNavigate(); // Déclare le hook navigate ici, au bon niveau du composant.
+
+const handleDrop = (cardId: number, targetCategory: string) => {
+  const card = cards.find((c) => c.id === cardId);
+  if (card && card.category === targetCategory) {
+    setCards((prevCards) => prevCards.filter((c) => c.id !== cardId));
+    setScore((prevScore) => prevScore + 1);
+    setMessage('Bonne réponse !');
+    setPopupType('correct');
+    setExplanation(explanations[targetCategory]); // Affichage de l'explication
     setShowPopup(true);
-  };
+
+    // Vérifier si toutes les cartes ont été répondues
+    if (cards.length - 1 === 0) {
+      setTimeout(() => navigate("/"), 1500); // Attendre un temps pour que l'utilisateur voie la dernière popup avant la redirection
+    }
+  } else {
+    setMessage('Mauvaise réponse, essayez encore.');
+    setPopupType('incorrect');
+    setExplanation('Il semble que vous ayez fait une erreur. Réessayez pour mieux comprendre !');
+    setShowPopup(true);
+  }
+};
+
 
   const DraggableCard = ({ id, text, image }: { id: number; text: string; image: string }) => {
     const [{ isDragging }, drag] = useDrag(() => ({
@@ -141,6 +160,7 @@ const Apprendre: React.FC = () => {
           </div>
         </div>
       )}
+
 
       <footer className="mt-12 text-center text-lg bg-black bg-opacity-50 text-white p-4 rounded-md">
         <p>Votre Score : {score} / {cardsData.length}</p>
